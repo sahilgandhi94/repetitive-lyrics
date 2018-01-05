@@ -13,14 +13,20 @@ try:
     log.info('Connecting to db..')
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    log.info('Connectied to db!')
+    log.info('Connected to db!')
 
     log.info('Reading corpus file..')
     f = open('corpus.txt', 'r')
 
     lines = f.readlines()
     dump = list()
-    i = 0
+    
+    c.execute('select seq from sqlite_sequence where name="songs"')
+    i = c.fetchone()
+    if i is not None:
+        i = i[0]
+    else: i = 0
+
     for line in lines:
         title, artist, date = line.split(SEPARATOR)
         date = datetime.strptime(date.strip('\n'), '%Y-%m-%d')

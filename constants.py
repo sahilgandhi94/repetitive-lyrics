@@ -3,7 +3,7 @@ from datetime import datetime
 # billboard fetch
 SEPARATOR = '<|=|>'
 DATE_LIMIT = datetime.strptime('1958-01-01', '%Y-%m-%d')
-CHART_NAME = 'billboard-200'
+CHART_NAME = 'hot-100'
 
 
 # reset db
@@ -22,8 +22,7 @@ create table songs (
 
 CREATE_LYRICS_TABLE = '''
 create table lyrics (
-    id integer primary key AUTOINCREMENT,
-    songid integer not null,
+    songid integer not null unique,
     lyrics text not null,
     foreign key(songid) references song(id)
 )
@@ -31,8 +30,7 @@ create table lyrics (
 
 CREATE_REP_TABLE = '''
 create table rep (
-    id integer primary key AUTOINCREMENT,
-    songid integer not null,
+    songid integer not null unique,
     totalbytes integer not null,
     compressedbytes integer not null,
     rep_per integer not null,
