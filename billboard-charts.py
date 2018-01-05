@@ -2,10 +2,11 @@ import logging
 from datetime import datetime, timedelta
 
 import billboard
+from constants import *
 
-SEPARATOR = '<|=|>'
-DATE_LIMIT = datetime.strptime('1958-01-01', '%Y-%m-%d')
-CHART_NAME = 'billboard-200'
+# SEPARATOR = '<|=|>'
+# DATE_LIMIT = datetime.strptime('1958-01-01', '%Y-%m-%d')
+# CHART_NAME = 'billboard-200'
 
 CORPUS = dict()
 
