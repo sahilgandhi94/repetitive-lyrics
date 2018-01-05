@@ -1,4 +1,4 @@
-
+from datetime import datetime
 
 # billboard fetch
 SEPARATOR = '<|=|>'
@@ -14,7 +14,7 @@ DATABASE = DB_NAME+EXT
 CREATE_SONGS_TABLE = '''
 create table songs (
     id integer primary key AUTOINCREMENT,
-    name text not null,
+    title text not null,
     artist text not null,
     date datetime not null
 )

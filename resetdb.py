@@ -4,23 +4,23 @@ import sqlite3
 import time
 import traceback
 
+import constants
 import logger
-from constants import *
 
 log = logger.getLogger('resetdb')
 
-if os.path.isfile(DATABASE):
+if os.path.isfile(constants.DATABASE):
     log.info('Found existing database, renaming it..')
-    os.rename(DATABASE, DB_NAME+str(int(time.time()))+EXT)
+    os.rename(constants.DATABASE, constants.DB_NAME+str(int(time.time()))+constants.EXT)
 
 # create database
 try:
     log.info('Creating new db..')
-    conn = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(constants.DATABASE)
     c = conn.cursor()
-    c.execute(CREATE_SONGS_TABLE)
-    c.execute(CREATE_LYRICS_TABLE)
-    c.execute(CREATE_REP_TABLE)
+    c.execute(constants.CREATE_SONGS_TABLE)
+    c.execute(constants.CREATE_LYRICS_TABLE)
+    c.execute(constants.CREATE_REP_TABLE)
     conn.commit()
     log.info('Successfully created the db and its tables')
 
