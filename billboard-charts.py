@@ -1,4 +1,6 @@
 import logging
+import time
+import traceback
 from datetime import datetime, timedelta
 
 import billboard
@@ -44,10 +46,27 @@ def storecorpus():
     f.close()
 
 date = datetime.now()
+error_count = 0
 while date >= DATE_LIMIT:
-    logger.info("Fetching data for: {}".format(date.date()))
-    getchart(CHART_NAME, date)
-    logger.info("Size of corpus:    {}".format(len(CORPUS)))
-    date = date - timedelta(days=7)
+    try:
+        logger.info("Fetching data for: {}".format(date.date()))
+        getchart(CHART_NAME, date)
+        logger.info("Size of corpus:    {}".format(len(CORPUS)))
+        date = date - timedelta(days=7)
+        error_count = 0
+    except ConnectionResetError:
+        error_count += 1
+        wait_time = 2**error_count
+        logger.error('ConnectionResetError occured. Waiting for {} seconds before resuming.. \n{}'.format(wait_time, traceback.format_exc()))
+        time.sleep(wait_time)
+        continue
+    except Exception:
+        error_count += 1
+        wait_time = 2**error_count
+        logger.error('Generic exception occured. Skipping this week, waiting for {} secs and continuing.. \n{}'.format(wait_time, traceback.format_exc()))        
+        time.sleep(wait_time)
+        date = date - timedelta(days=7)        
+        continue
+
 storecorpus()
 logger.info('Successfully created corpus.txt file')
