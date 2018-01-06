@@ -18,7 +18,7 @@ try:
 
     lyricsdump = list()
     lyricexceptioncount = 0
-    for row in c.execute('select * from songs as s where id not in (select songid from lyrics) limit 50'):
+    for row in c.execute('select * from songs as s where id not in (select songid from lyrics)'):
         try:
             songid, title, artist, date = row
             lyrics = lw.get_lyrics(artist, title)
