@@ -22,6 +22,8 @@ def get_lyrics(artist,song_title):
         lyrics = lyrics.split(up_partition)[1]
         lyrics = lyrics.split(down_partition)[0]
         lyrics = lyrics.replace('<br>','').replace('</br>','').replace('</div>','').strip()
+        if 'http'.find(lyrics) > -1 or 'Http'.find(lyrics) > -1 or 'HTTP'.find(lyrics) > -1:
+            raise Exception('Exception occurred. Response was: \n{}'.format(lyrics))
         return lyrics
     except Exception as e:
         return "Exception occurred \n" +str(e)
