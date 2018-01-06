@@ -41,8 +41,11 @@ def getchart(name, date):
 def storecorpus():
     f = open('corpus.txt', 'w')
     for key, value in CORPUS.items():
-        print(key+SEPARATOR+value)
-        f.write(key+SEPARATOR+value+'\n')
+        try:
+            f.write(key+SEPARATOR+value+'\n')
+        except Exception:
+            logger.error('One record could not be added to corpus: \n{}'.format(traceback.format_exc()))
+            continue
     f.close()
 
 date = datetime.now()
