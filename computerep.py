@@ -21,7 +21,7 @@ try:
             ogbytes = lyrics.encode('utf-8')
             compressedbytes = zlib.compress(ogbytes)
             per = round((len(ogbytes)-len(compressedbytes))/len(ogbytes), 5)
-            repdump.append((songid, ogbytes, compressedbytes, per))
+            repdump.append((songid, len(ogbytes), len(compressedbytes), per))
         except Exception:
             exceptioncount+=1
             log.error('Rep compression exception \n{}'.format(traceback.format_exc()))
@@ -29,7 +29,7 @@ try:
             continue
     
     log.info('Dumping {} rep data to db..'.format(len(repdump)))
-    c.execute('insert into rep values (?,?,?,?)', repdump)
+    c.executemany('insert into rep values (?,?,?,?)', repdump)
     conn.commit()
     log.info('Finished dumping rep data to db..')
     
